@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layoutDescription="@xml/activity_main_scene"
     android:layout_margin="30dp"
     tools:context=".MainActivity">
 
@@ -37,7 +36,9 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="50dp"
-        android:hint="e-mail">
+        android:hint="e-mail"
+        android:theme="@style/MyTextInputLayout_overlay"
+        app:hintTextColor ="@color/teal_700">
 
         <EditText
             android:id="@+id/txt_email"
@@ -56,16 +57,17 @@
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:hint="password">
+        android:hint="password"
+        android:theme="@style/MyTextInputLayout_overlay"
+        app:hintTextColor ="@color/teal_700">
 
         <EditText
             android:id="@+id/txt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:background="@null"
-            android:inputType="textPassword"
-            />
+            android:ems="10"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
