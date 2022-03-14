@@ -13,6 +13,7 @@ public class CredentialValidator {
 
     public boolean isValidEmail(String email){
         if(email == null || email.isEmpty() || !email.contains("@")){
+
             return false;
         }
         else return databaseConnection.isAvailable() && !databaseConnection.isRegistered(email);
