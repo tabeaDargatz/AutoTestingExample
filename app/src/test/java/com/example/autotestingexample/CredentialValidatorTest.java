@@ -1,50 +1,40 @@
 package com.example.autotestingexample;
 
-import android.content.Context;
-
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CredentialValidatorTest {
 
-    @Test
-    public void invalidEmail_isValidEmail_ReturnsFalse(){
-        CredentialValidator credentialValidator = new CredentialValidator(new DatabaseConnection());
-        assertFalse(credentialValidator.isValidEmail(null));
-        assertFalse(credentialValidator.isValidEmail(""));
-        assertFalse(credentialValidator.isValidEmail("ICHMAGKEINESONDERZEICHEN.com"));
-    }
-
-    @Test
-    public void validEmail_isValidEmail_ReturnsTrue(){
-        CredentialValidator credentialValidator = new CredentialValidator(new DatabaseConnection());
-        assertTrue(credentialValidator.isValidEmail("tabea.dargatz@lfh.de")); //has @ sign
-    }
-
     @Mock
     public DatabaseConnection databaseConnection;
 
     @Test
-    public void validButAlreadyRegisteredEmail_isValidEmail_ReturnsFalse(){
-        when(databaseConnection.isRegistered(any())).thenReturn(true);
+    public void invalidEmail_isValidEmail_ReturnsFalse() {
+        when(databaseConnection.isRegistered("alreadyRegistered@gmail.com")).thenReturn(true);
         CredentialValidator credentialValidator = new CredentialValidator(databaseConnection);
-        assertFalse(credentialValidator.isValidEmail("Test@gmail.com"));
+        assertFalse(credentialValidator.isValidEmail(null)); //nothing entered
+        assertFalse(credentialValidator.isValidEmail("ICHMAGKEINESONDERZEICHEN.com")); //no @
+        assertFalse(credentialValidator.isValidEmail("alreadyRegistered@gmail.com")); //already registered according to db mock
     }
 
-
+    @Test
+    public void validEmail_isValidEmail_ReturnsTrue() {
+        when(databaseConnection.isRegistered(any())).thenReturn(true);
+        CredentialValidator credentialValidator = new CredentialValidator(databaseConnection);
+        assertTrue(credentialValidator.isValidEmail("tabea.dargatz@lfh.de")); //has @ sign & isn't registered according to db mock
+    }
 
     @Test
-    public void weakPassword_isValidPassword_ReturnsFalse(){
-        CredentialValidator credentialValidator = new CredentialValidator(new DatabaseConnection());
+    public void weakPassword_isValidPassword_ReturnsFalse() {
+        CredentialValidator credentialValidator = new CredentialValidator(databaseConnection);
         assertFalse(credentialValidator.isValidPassword(null));
         assertFalse(credentialValidator.isValidPassword("1111111!")); //missing capital letter
         assertFalse(credentialValidator.isValidPassword("AAAAAAAA!")); //missing number
@@ -53,9 +43,9 @@ public class CredentialValidatorTest {
     }
 
     @Test
-    public void strongPassword_isValidPassword_ReturnsTrue(){
-        CredentialValidator credentialValidator = new CredentialValidator(new DatabaseConnection());
-        assertTrue(credentialValidator.isValidPassword("123456A!"));
+    public void strongPassword_isValidPassword_ReturnsTrue() {
+        CredentialValidator credentialValidator = new CredentialValidator(databaseConnection);
+        assertTrue(credentialValidator.isValidPassword("123456A!")); //capital letter, number, special character and > 7 chars
     }
 
 }
