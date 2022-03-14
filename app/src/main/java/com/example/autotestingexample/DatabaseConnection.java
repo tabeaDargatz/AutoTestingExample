@@ -3,23 +3,13 @@ import java.util.ArrayList;
 import java.util.List;
 public class DatabaseConnection {
 
-    public List<String> registeredEmails = new ArrayList<String>();
-    public boolean isAvailable(){
-        return true;
-    }
+    public List<String> registeredEmails = new ArrayList<>();
 
     public boolean isRegistered(String email){
-        if(registeredEmails.contains(email)){
-            return  true;
-        }
-        else {
-            register(email, "");
-            return false;
-        }
+        return registeredEmails.contains(email);
     }
 
     public void register(String email, String password){
-
         registeredEmails.add(email);
     }
 

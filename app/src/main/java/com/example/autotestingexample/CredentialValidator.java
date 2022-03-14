@@ -13,20 +13,19 @@ public class CredentialValidator {
 
     public boolean isValidEmail(String email){
         if(email == null || email.isEmpty() || !email.contains("@")){
-
             return false;
         }
-        else return databaseConnection.isAvailable() && !databaseConnection.isRegistered(email);
+        else return !databaseConnection.isRegistered(email);
     }
 
     public boolean isValidPassword(String password){
-        if(password == null || password.isEmpty() || password.length() < 8){
+        if(password == null){
             return false;
         }
         return isPasswordStrong(password);
     }
 
-    public boolean isPasswordStrong(String password){
+    private boolean isPasswordStrong(String password){
         Pattern pattern;
         Matcher matcher;
         final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
