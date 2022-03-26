@@ -27,7 +27,7 @@ public class CredentialValidatorTest {
 
     @Test
     public void validEmail_isValidEmail_ReturnsTrue() {
-        when(databaseConnection.isRegistered(any())).thenReturn(true);
+        when(databaseConnection.isRegistered(any())).thenReturn(false);
         CredentialValidator credentialValidator = new CredentialValidator(databaseConnection);
         assertTrue(credentialValidator.isValidEmail("tabea.dargatz@lfh.de")); //has @ sign & isn't registered according to db mock
     }
